@@ -1,10 +1,9 @@
-# Evomics 2017
-Instructions and notes for creating the AMIs for the [evomics.org](http://evomics.org) Workshops 2017 and information on the previous years' AMIs in [previous_workflow.md](https://github.com/guyleonard/evomics_2017/blob/master/previous_workflow.md).
+# Transcriptomcs 2017
+Instructions and notes for creating the VM for the [Harvard](http://evomics.org/workshops/2017-workshop-on-transcriptomics-harvard-university/) Workshop on Transcriptomics. It is based on the instruction/methods to prepare the AMIs for the [evomics.org](https://github.com/guyleonard/evomics_2017/) workshops.
 
-## Preamble
-For the past two years I have created the AMIs for the Workshop on Genomics a couple of weeks prior to the workshops beginning - usually in my Christmas holiday and also during the Faculty set up week. This year I want to try and get the building of the AMI to be as automated as possible ahead of the workshop. This will also allow students, faculty, PIs, etc, to build/alter their own copies for future workshops, training or personal use. If you plan to make changes for your own use, I highly suggest forking this repository and making changes to your copy (as you will have to supply your own crypted passwords etc). I am happy to accept pull requests for software bugs, updates, fixes, additions etc.
+Not much here yet other than Genomics 2017 - Coming Soon!
 
-# 2017 Workshops (Genomics & Phylogenomics)
+----
 
 We will be using the latest Ubuntu Linux as our initial AMI, in this case: [ami-cf68e0d8](https://console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstanceWizard:ami=ami-cf68e0d8) which is the 'us-east-1'	copy of Ubuntu Xenial Xerus 16.04 LTS. But you should be able to use any Debian based version of Linux, ansible will stop on errors but it can also be resumed from that point. I am assuming that you have an AWS account and have already initialised the above AMI for this README.
 
@@ -32,7 +31,7 @@ If you already have a base AMI that you wish to use you can do this instead:
 
 If you are logged in to your AMI using a key pair then you do not need to enter a password when you are asked for SUDO access. Just press 'enter' and continue.
 
-## Genomics AMI Setup:
+## Transcriptomics AMI Setup:
 
 ### Software
 
@@ -55,25 +54,6 @@ Tags can be mixed and matched as you like, they *should* install their dependenc
 There is only one playbook for the data section, but you can run it with tags as before.
 
     ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/evomics_2017/genomics/main_data.yaml -b -K -c local -i "localhost,"
-
-## Phylogenomics AMI Setup
-
-### Software
-
-Run the phylogenomics software playbook fully:
-
-    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/evomics_2017/phylogenomics/main_software.yaml -b -K -c local -i "localhost,"
-
-or for just two tools, e.g. raxml & mrbayes:
-
-    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/evomics_2017/phylogenomics/main_software.yaml -b -K -c local -i "localhost," --tags raxml,mrbayes
-
-or for just one tutorial you could do:
-
-    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/evomics_2017/phylogenomics/main_software.yaml -b -K -c local -i "localhost," --tags model_selection
-
-Tags can be mixed and matched as you like, they *should* install their dependencies where I have remembered ;).
-
 
 # FAQs
 
