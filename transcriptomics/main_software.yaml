@@ -1,7 +1,7 @@
 - hosts: all
   become: yes
   vars:
-    - workshop_user: genomics
+    - workshop_user: transcriptomics
     - source_dir: "/home/{{workshop_user}}/software/.source"
     - software_dir: "/home/{{workshop_user}}/software"
     - workshop_dir: "/home/{{workshop_user}}/workshop_materials"
@@ -91,19 +91,11 @@
     ### Unix ###
     # Base is OK
 
-
-    ### Sequencing Data Quality Control ###
-    - include: software_tasks/seqtk.yaml
-      tags: genomics, seqdqc, seqtk
-      
-    - include: software_tasks/trim_galore.yaml version=0.4.1
-      tags: seqdqc, trim_galore
-    
     - name: Installing cutadapt
       pip: name=cutadapt state=present
       tags: seqdqc, cutadapt
 
-    - name: Install ea-utils 1.04.676, trimmomatic, fastqc 0.11.4
+    - name: Install ea-utils 1.04.676, trimmomatic
       apt: name={{item}} state=present
       with_items:
        - ea-utils
@@ -114,22 +106,6 @@
     - include: software_tasks/fastqc.yaml version=0.11.5
       tags: fastqc
 
-
-    ### Alignment Methods ###
-    # This requires > 4GB memory to install, so we ignore the errors
-    # to allow the rest of the play to run through
-    - include: software_tasks/blasr.yaml
-      tags: alignment, genomics, blasr
-      ignore_errors: yes
-
-
-    ### Genomics ###
-    ## Previously Installed
-    # FastQC, fastq-mcf, seqtk, blasr
-
-    - include: software_tasks/pilon.yaml version=1.21
-      tags: genomics, pilon
-
     - name: Installing vcftools
       apt: name=vcftools state=present
       tags: genomics, vcftools
@@ -137,28 +113,6 @@
     - name: Installing mummer
       apt: name=mummer state=present
       tags: genomics, mummer, circlator, amos
-
-    - include: software_tasks/amos.yaml version=3.1.0
-      tags: genomics, amos, circlator, minimus2
-
-    - name: Installing Circlator
-      pip: name=circlator executable=pip3
-      tags: genomics, circlator
-
-    - include: software_tasks/krona.yaml version=2.7
-      tags: genomics, krona
-
-    - include: software_tasks/minimap.yaml
-      tags: genomics, minimap, miniasm, assembly
-     
-    - include: software_tasks/miniasm.yaml
-      tags: genomics, minimap, minias, assembly
-
-    - include: software_tasks/nanopolish.yaml
-      tags: genomics, nanopolish, assembly
-
-    - include: software_tasks/poretools.yaml
-      tags: genomics, poretools, assembly
 
     # installs bowtie 1 and 2
     - include: software_tasks/bowtie.yaml version=2.2.9
@@ -236,31 +190,8 @@
     - include: software_tasks/newick_utils.yaml
       tags: genomics, newick_utils
 
-    - include: software_tasks/picard_tools.yaml
-      tags: genomics, picard_tools
-
-    - include: software_tasks/genomics_tutorial_extras.yaml
-      tags: genomics, genomics_extras
-
-    - include: software_tasks/gatb-pipeline.yaml version=1.171
-      tags: genomics, gatb
-      
-    - include: software_tasks/minia.yaml version=2.0.7
-      tags: genomics, assembly, minia, gatb
-
-    ### Genome Assembly ###
-    ## Previously Installed
-    # velvet, SPAdes, QUAST, fastqc, minia, gatb
-
-    - include: software_tasks/kmergenie.yaml version=1.7016
-      tags: assembly, kmergenie
-   
     - include: software_tasks/prokka.yaml
       tags: assembly, prokka, circlator
-
-    - include: software_tasks/canu.yaml
-      tags: assembly, canu
-
 
     ### Introduction to R ###
     ## Previously Installed
@@ -275,83 +206,13 @@
       tags: r, ggplot2
 
 
-    ### QIIME ###
-    - name: Installing QIIME Dependencies
-      pip: name={{item}} state=present
-      with_items:
-       - numpy
-       - h5py
-       - matplotlib
-      tags: qiime, metagenomics
-      
     - name: Install MAFFT QIIME Dependency
       apt: name=mafft state=present
       tags: qiime, qiime2
 
-    # basic pip install of qiime
-    - include: software_tasks/qiime_basic.yaml version=1.9.1
-      tags: qiime, metagenomics
-
-    # conda environment install qiime1
-    - include: software_tasks/qiime_env.yaml
-      tags: qiime, metagenomics 
-
-    # conda environment install qiime2
-    - include: software_tasks/qiime2_env.yaml
-      tags: qiime2, metagenomics
-
     - include: software_tasks/jupyter.yaml
       tags: qiime, qiime2, jupyter, metagenomics
     
-
-    ### PhyloSeq ###
-    ## Previously Installed
-    # r, r-studio-server/desktop, littler, ggplot2
-    
-    - include: software_tasks/phyloseq.yaml
-      tags: phyloseq
-
-    
-    ### RAD-Seq / Stacks ###
-    ## Previously Installed
-    # MySQL (MariaDB) in Base Install
-
-    - name: Installing Stacks Dependencies
-      apt: name={{item}} state=present
-      with_items:
-       - libdbd-mysql-perl
-       - libsparsehash-dev
-       - php7.0
-       - php7.0-mysql
-       - python-mysqldb
-       - libspreadsheet-writeexcel-perl
-      tags: radseq, stacks
- 
-    - include: software_tasks/stacks.yaml version=1.44
-      tags: radseq, stacks
-
-    - include: software_tasks/stacks_web.yaml
-      tags: radseq, stacks, stacksweb
-
-    - include: software_tasks/raxml.yaml
-      tags: radseq, raxml, trees
-
-    - name: Install gnuplot
-      apt: name=gnuplot state=present
-      tags: radseq, gnuplot
-
-    # The default is to disable sse2 and sse4.1 extensions
-    # as we have been burned before by some Amazon instances
-    # not having those extensions available! 
-    - include: software_tasks/gmap_gsnap.yaml version=2016-08-24
-      tags: radseq, gmap, gsnap, transcriptomics
-   
-    - include: software_tasks/structure_console.yaml version=2.3.4
-      tags: radseq, structure
-
-    - include: software_tasks/structure_frontend.yaml version=2.3.4
-      tags: radseq, structure
-
 
     ### Transcriptomics ###
     ## Previously Installed

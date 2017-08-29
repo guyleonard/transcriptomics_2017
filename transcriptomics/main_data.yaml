@@ -1,0 +1,59 @@
+- hosts: all
+  become: yes
+  vars:
+    - workshop_user: transcriptomics
+    - source_dir: "/home/{{workshop_user}}/software/.source"
+    - software_dir: "/home/{{workshop_user}}/software"
+    - workshop_dir: "/home/{{workshop_user}}/workshop_materials"
+
+  tasks:
+  ### Common ###
+
+  ### Unix ###
+  - name: Create Unix Directory
+    file: path="{{workshop_dir}}/unix" state=directory owner="{{workshop_user}}" group=workshop
+    tags: unix
+
+  - name: Downloading Unix Dataset
+    get_url:
+      url="https://s3.amazonaws.com/2017evomics/unix.tar.gz"
+      dest="{{source_dir}}/unix.tar.gz"
+    register: get_url_result
+    until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+    retries: 5
+    delay: 10
+    tags: unix
+
+  - name: Uncompressing Unix Dataset
+    unarchive:
+      src="{{source_dir}}/unix.tar.gz"
+      dest="{{workshop_dir}}"
+      copy=no
+      creates="{{workshop_dir}}/unix/contigs.fa.gz"
+    tags: unix
+
+  ### Transcriptomics ###
+
+  - name: Create Transcriptomics Directory
+    file: path="{{workshop_dir}}/transcriptomics" state=directory owner="{{workshop_user}}" group=workshop
+    tags: transcriptomics
+
+  - name: Create Trinotate databases Directory
+    file: path="{{workshop_dir}}/transcriptomics/trinotate_databases" state=directory owner="{{workshop_user}}" group=workshop
+    tags: transcriptomics
+
+  - include: data_tasks/swissprot.yaml
+    tags: transcriptomics, swissprot
+
+  - include: data_tasks/pfam.yaml
+    tags: transcriptomics, pfam
+
+  - include: data_tasks/trinotate.yaml
+    tags: transcriptomics, trinotate
+
+  - name: Cloning Trinity Workshop
+    git: repo=https://github.com/trinityrnaseq/KrumlovTrinityWorkshopJan2017.git dest="{{workshop_dir}}/transcriptomics/KrumlovTrinityWorkshopJan2017" clone=yes update=yes
+    become: true
+    become_user: "{{workshop_user}}"
+    tags: transcriptomics
+
