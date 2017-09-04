@@ -1,0 +1,41 @@
+- name: Installing AnnotationDbi via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('AnnotationDbi')"
+
+- name: Installing BiocParallel via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('BiocParallel')"
+
+- name: Installing DESeq2 via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('DESeq2')"
+
+- name: Installing dplyr
+  shell: "{{playbook_dir}}/scripts/install.r dplyr"
+
+- name: Installing GenomicFeatures via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('GenomicFeatures')"
+
+- name: Installing GO.db via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('GO.db')"
+
+- name: Installing knitr
+  shell: "{{playbook_dir}}/scripts/install.r knitr"
+
+- name: Installing magrittr
+  shell: "{{playbook_dir}}/scripts/install.r magrittr"
+
+- name: Installing org.Hs.eg.db via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('org.Hs.eg.db')"
+
+- name: Installing GO.db via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('GO.db')"
+
+- name: Installing printr
+  shell: "{{playbook_dir}}/scripts/install.r printr"
+
+- name: Installing readr
+  shell: "{{playbook_dir}}/scripts/install.r readr"
+
+- name: Installing rjson
+  shell: "{{playbook_dir}}/scripts/install.r rjson"
+
+- name: Installing tximport via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('tximport')"

@@ -66,7 +66,7 @@
        - libbamtools-dev
        - libbamtools2.4.0
        - sra-toolkit
-      tags: general, alignment, assembly, genomics, seqdqc, transcriptomics
+      tags: general, alignment, assembly, genomics, seqdqc, transcriptomics, differential
 
     - name: Installing BioPerl - slow
       cpanm: name=CJFIELDS/BioPerl-1.6.924.tar.gz
@@ -93,14 +93,14 @@
 
     - name: Installing cutadapt
       pip: name=cutadapt state=present
-      tags: seqdqc, cutadapt
+      tags: cutadapt
 
     - name: Install ea-utils 1.04.676, trimmomatic
       apt: name={{item}} state=present
       with_items:
        - ea-utils
        - trimmomatic
-      tags: genomics, seqdqc
+      tags: trimmomatic, ea-utils
       
     # The Ubuntu fastqc package is broken!
     - include: software_tasks/fastqc.yaml version=0.11.5
@@ -108,24 +108,20 @@
 
     - name: Installing vcftools
       apt: name=vcftools state=present
-      tags: genomics, vcftools
-
-    - name: Installing mummer
-      apt: name=mummer state=present
-      tags: genomics, mummer, circlator, amos
+      tags: vcftools
 
     # installs bowtie 1 and 2
     - include: software_tasks/bowtie.yaml version=2.2.9
-      tags: genomics, bowtie, transcriptomics
+      tags: bowtie, transcriptomics
 
     - include: software_tasks/bwa.yaml
-      tags: genomics, bwa, gatb, circlator
+      tags: bwa, transcriptomics
       
     - include: software_tasks/samtools.yaml version=1.3.1
-      tags: genomics, samtools, transcriptomics
+      tags: samtools, transcriptomics
 
     - include: software_tasks/bcftools.yaml version=1.3.1
-      tags: genomics, bcftools
+      tags: bcftools, transcriptomics
       
     - name: Installing blast legacy & blast+
       apt: name={{item}} state=present
@@ -134,7 +130,7 @@
        - ncbi-blast+-legacy
        - ncbi-tools-bin
        - ncbi-tools-x11
-      tags: genomics, blast
+      tags: blast
       
     - name: Installing EMBOSS tools (getorf)
       apt: name={{item}} state=present
@@ -144,7 +140,7 @@
        - emboss-doc
        - emboss-lib
        - jemboss
-      tags: genomics, emboss
+      tags: emboss
       
     - name: Installing FastTree2
       apt: name=fasttree state=present
@@ -154,25 +150,25 @@
       tags: fasttree
     - name: Install FastTree2 MP Links
       file: src=/usr/bin/fasttreeMP dest=/usr/bin/FastTreeMP state=link
-      tags: genomics, fasttree
+      tags: fasttree
       
     - include: software_tasks/igv.yaml version=2.3.80
       tags: genomics, igv, transcriptomics
     - include: software_tasks/igvtools.yaml version=2.3.80
-      tags: genomics, igvtools, transcriptomics
+      tags: igvtools, transcriptomics
       
     - name: Install bedtools
       apt: name=bedtools state=present
-      tags: genomics, bedtools
+      tags: bedtools
 
     - include: software_tasks/qualimap.yaml version=2.2
-      tags: genomics, qualimap
+      tags: qualimap
 
-    - include: software_tasks/SPAdes.yaml version=3.9.0
-      tags: assembly, genomics, spades, circlator
+    - include: software_tasks/SPAdes.yaml version=3.11.0
+      tags: spades
 
-    - include: software_tasks/quast.yaml version=4.2
-      tags: assembly, genomics, quast
+    - include: software_tasks/quast.yaml version=4.5
+      tags: quast
 
     - include: software_tasks/hmmer.yaml version=3.1b2
       tags: genomics, hmmer
@@ -182,16 +178,13 @@
       with_items:
        - velvet
        - velvet-example
-      tags: assembly, genomics, velvet
+      tags: velvet
 
     - include: software_tasks/bam2fastq.yaml version=1.1.0
-      tags: genomics, bam2fastq
+      tags: bam2fastq
 
     - include: software_tasks/newick_utils.yaml
-      tags: genomics, newick_utils
-
-    - include: software_tasks/prokka.yaml
-      tags: assembly, prokka, circlator
+      tags: newick_utils
 
     ### Introduction to R ###
     ## Previously Installed
@@ -205,13 +198,8 @@
       shell: "{{playbook_dir}}/scripts/install.r ggplot2"
       tags: r, ggplot2
 
-
-    - name: Install MAFFT QIIME Dependency
-      apt: name=mafft state=present
-      tags: qiime, qiime2
-
     - include: software_tasks/jupyter.yaml
-      tags: qiime, qiime2, jupyter, metagenomics
+      tags: r, jupyter
     
 
     ### Transcriptomics ###
@@ -219,7 +207,7 @@
     # bowtie1, bioconductor, IGV, igvtools, samtools, gmap
 
     - include: software_tasks/r_transcriptomics.yaml
-      tags: r, transcriptomics
+      tags: r, transcriptomics, differential
 
     - include: software_tasks/rsem.yaml version=1.2.31
       tags: transcriptomics, rsem
@@ -240,11 +228,19 @@
     - include: software_tasks/cbs_programs.yaml
       tags: trinity, cbs, signalp, tmhmm, rnammer, transcriptomics
 
+    ### Differential Expression ###
+    ## Previously Installed
+    # git, sra-toolkit, r, rstudio, ggplot2, goseq
+
+    - include: software_tasks/r_differential_expression.yaml
+      tags: r, differential
+
+
   ## Finishing Touches
   post_tasks:  
-    - name: Changing software/source user:group to genomics:workshop
-      file: path=/home/genomics/software owner=genomics group=workshop recurse=yes
+    - name: Changing software/source user:group to {{workshop_user}}:workshop
+      file: path=/home/{{workshop_user}}/software owner={{workshop_user}} group=workshop recurse=yes
       tags: finish
 
-    - shell: echo 'Now please run the Genomics Workshop Data Tasks Playbook'
+    - shell: echo 'Now please run the {{workshop_user}} Workshop Data Tasks Playbook'
       tags: finish

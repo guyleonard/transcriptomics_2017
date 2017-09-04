@@ -6,9 +6,9 @@ if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
 fi
 printf "\n"
 printf "############################################\n"
-printf "##        Workshop on Genomics 2017       ##\n"
-printf "##              Cesky Krumlov             ##\n"
-printf "##         @evomics #evomics2017          ##\n"
+printf "##    Workshop on Transcriptomics 2017    ##\n"
+printf "##              Boston, USA               ##\n"
+printf "##               @evomics                 ##\n"
 printf "############################################\n"
 printf "\n\n"
 printf "Welcome to %s (%s).\n" "$DISTRIB_DESCRIPTION" "$(uname -r)"
