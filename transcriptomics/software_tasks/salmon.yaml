@@ -1,0 +1,22 @@
+- name: Downloading Salmon v{{version}}
+  get_url:
+    url="https://github.com/COMBINE-lab/salmon/releases/download/v{{version}}/Salmon-{{version}}_linux_x86_64.tar.gz"
+    dest="{{source_dir}}/Salmon-{{version}}_linux_x86_64.tar.gz"
+  register: get_url_result
+  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+  retries: 5
+  delay: 10
+
+- name: Uncompress Salmon v{{version}}
+  unarchive: 
+    src="{{source_dir}}/Salmon-{{version}}_linux_x86_64.tar.gz"
+    dest="{{software_dir}}"
+    copy=no
+    creates="{{software_dir}}/Salmon-{{version}}_linux_x86_64/sample_data.tgz"
+
+- name: Adding Salmon v{{version}} to PATH
+  lineinfile: dest="/home/{{workshop_user}}/.bash_paths"
+              backrefs=yes
+              backup=yes
+              regexp="PATH=((?!.*?/home/{{workshop_user}}/software/Salmon-{{version}}_linux_x86_64/bin).*?)$"
+              line="PATH=\1:/home/{{workshop_user}}/Salmon-{{version}}_linux_x86_64/bin"
