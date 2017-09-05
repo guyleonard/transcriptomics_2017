@@ -186,7 +186,7 @@
     - include: software_tasks/newick_utils.yaml
       tags: newick_utils
 
-    ### Introduction to R ###
+    ### Other R Prerequisites ###
     ## Previously Installed
     # r and r studio server/desktop
 
@@ -227,6 +227,10 @@
 
     - include: software_tasks/cbs_programs.yaml
       tags: trinity, cbs, signalp, tmhmm, rnammer, transcriptomics
+
+    - name: Installing MultiQC
+      pip: name=multiqc state=present
+      tags: transcriptomics
 
     ### Differential Expression ###
     ## Previously Installed
