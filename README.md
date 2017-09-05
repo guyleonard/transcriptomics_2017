@@ -29,15 +29,15 @@ If you are logged in to your AMI using a key pair then you do not need to enter 
 
 Run the genomics software playbook fully:
 
-    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/transcriptomics_2017/genomics/main_software.yaml -b -K -c local -i "localhost,"
+    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/transcriptomics_2017/transcriptomics/main_software.yaml -b -K -c local -i "localhost,"
 
 or for just two tools, e.g. samtools & bwa:
 
-    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/transcriptomics_2017/genomics/main_software.yaml -b -K -c local -i "localhost," --tags samtools,bwa
+    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/transcriptomics_2017/transcriptomics/main_software.yaml -b -K -c local -i "localhost," --tags samtools,bwa
     
 or for just one tutorial you could do:
 
-    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/transcriptomics_2017/genomics/main_software.yaml -b -K -c local -i "localhost," --tags transcriptomics
+    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/transcriptomics_2017/transcriptomics/main_software.yaml -b -K -c local -i "localhost," --tags transcriptomics
 
 Tags can be mixed and matched as you like, they *should* install their dependencies where I have remembered ;).
 
@@ -45,7 +45,7 @@ Tags can be mixed and matched as you like, they *should* install their dependenc
 
 There is only one playbook for the data section, but you can run it with tags as before.
 
-    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/transcriptomics_2017/genomics/main_data.yaml -b -K -c local -i "localhost,"
+    ANSIBLE_NOCOWS=1 ansible-playbook /home/ubuntu/transcriptomics_2017/transcriptomics/main_data.yaml -b -K -c local -i "localhost,"
 
 # FAQs
 
