@@ -232,6 +232,9 @@
       pip: name=multiqc state=present
       tags: transcriptomics
 
+    - include: software_tasks/hisat2.yaml version=2.1.0
+      tags: hisat2, transcriptomics
+
     ### Differential Expression ###
     ## Previously Installed
     # git, sra-toolkit, r, rstudio, ggplot2, goseq
