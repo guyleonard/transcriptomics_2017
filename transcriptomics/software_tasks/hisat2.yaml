@@ -1,7 +1,7 @@
 - name: Downloading HISAT v{{version}}
   get_url:
     url="ftp://ftp.ccb.jhu.edu/pub/infphilo/hisat2/downloads/hisat2-{{version}}-Linux_x86_64.zip"
-    dest="{{source_dir}}/quast-{{version}}.tar.gz"
+    dest="{{source_dir}}/hisat2-{{version}}-Linux_x86_64.zip"
   register: get_url_result
   until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
   retries: 5
