@@ -186,6 +186,7 @@
     - include: software_tasks/newick_utils.yaml
       tags: newick_utils
 
+
     ### Other R Prerequisites ###
     ## Previously Installed
     # r and r studio server/desktop
@@ -237,6 +238,8 @@
 
     - include: software_tasks/stringtie.yaml version=1.3.3b
       tags: stringtie, transcriptomics
+
+
     ### Differential Expression ###
     ## Previously Installed
     # git, sra-toolkit, r, rstudio, ggplot2, goseq
@@ -244,6 +247,10 @@
     - include: software_tasks/r_differential_expression.yaml
       tags: r, differential
 
+
+    ### Single Cell Transcriptomics
+    ## Previously Installed
+    #
 
   ## Finishing Touches
   post_tasks:  
