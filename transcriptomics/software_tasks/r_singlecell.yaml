@@ -2,7 +2,5 @@
   shell: "{{playbook_dir}}/scripts/install.r devtools"
 
 - name: Installing SCDE
-  shell: "{{playbook_dir}}/scripts/install_github.r 'devtools::hms-dbmi/scde', build_vignettes = FALSE"
-
-
-
+  #shell: "{{playbook_dir}}/scripts/install_github.r 'hms-dbmi/scde', build_vignettes = FALSE"
+  shell: Rscript -e "devtools::install_github('hms-dbmi/scde', build_vignettes = FALSE)"
