@@ -43,6 +43,14 @@
     - cmake .
     - make
 
+- name: Echo nmslib directory
+  shell: "echo $NMSLIB_PATH"
+  environment:
+    NMSLIB_PATH: "{{software_dir}}/nmslib-1.5.3/"
+
+- name: Echo nmslib directory again
+  shell: "echo $NMSLIB_PATH"
+
 - name: Downloading largeVis
   get_url:
     url="http://pklab.med.harvard.edu/pagoda2dependencies/largeVis.tar.gz"
@@ -64,3 +72,4 @@
 
 - name: Installing largeVis
   shell: Rscript -e "devtools::install('{{software_dir}}/largeVis')"
+
