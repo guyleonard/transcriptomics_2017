@@ -93,3 +93,9 @@
 
 - name: Installing Rtsne
   shell: Rscript -e "devtools::install_github('pkharchenko/Rtsne.multicore', ref='precomputed_distance')"
+
+- name: Installing pagoda2
+  shell: Rscript -e "devtools::install_github('hms-dbmi/pagoda2', ref='ptsne')"
+
+
+
