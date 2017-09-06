@@ -1,0 +1,5 @@
+- name: Installing SCDE
+  shell: "{{playbook_dir}}/scripts/install_github.r 'hms-dbmi/scde', build_vignettes = FALSE"
+
+
+
