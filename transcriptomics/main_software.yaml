@@ -255,6 +255,8 @@
     - include: software_tasks/r_singlecell.yaml
       tags: r, singlecell
 
+    - include: software_tasks/pagoda2.yaml
+      tags: pagoda2, singlecell
 
   ## Finishing Touches
   post_tasks:  

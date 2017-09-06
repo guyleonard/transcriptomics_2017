@@ -1,0 +1,44 @@
+- name: Installing dependencies from apt
+  apt: name={{item}} state=present install_recommends=yes
+  with_items:
+   - build-essential
+   - cmake
+   - gsl-bin
+   - libgsl0-dev
+   - libeigen3-dev
+   - libboost-all-dev
+   - libcurl4-gnutls-dev
+   - libssl-dev
+   - libcurl4-openssl-dev 
+   - libssl-dev
+   - libcairo2-dev
+   - libxt-dev
+   - libgtk2.0-dev
+   - libcairo2-dev
+   - xvfb
+   - xauth
+   - xfonts-base
+
+- name: Downloading nmslib
+  get_url:
+    url="https://github.com/searchivarius/nmslib/archive/v1.5.3.tar.gz"
+    dest="{{source_dir}}/v1.5.3.tar.gz"
+  register: get_url_result
+  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+  retries: 5
+  delay: 10
+
+- name: Uncompress nmslib
+  unarchive: 
+    src="{{source_dir}}/v1.5.3.tar.gz"
+    dest="{{software_dir}}"
+    copy=no
+    creates="{{software_dir}}/nmslib-1.5.3/README.md"
+
+- name: Building nmslib
+  shell: "{{item}}"
+  args:
+   chdir: "{{software_dir}}/nmslib-1.5.3/README.md"
+  with_items:
+    - cmake .
+    - make
