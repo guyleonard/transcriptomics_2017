@@ -258,6 +258,10 @@
     - include: software_tasks/pagoda2.yaml
       tags: pagoda2, singlecell
 
+    - name: Installing urltools
+      shell: "{{playbook_dir}}/scripts/install.r Seurat"
+      tags: seurat, singlecell
+
   ## Finishing Touches
   post_tasks:  
     - name: Changing software/source user:group to {{workshop_user}}:workshop
