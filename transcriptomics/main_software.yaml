@@ -250,7 +250,11 @@
 
     ### Single Cell Transcriptomics
     ## Previously Installed
-    #
+    # some R stuff I guess
+
+    - include: software_tasks/r_singlecell.yaml
+      tags: r, singlecell
+
 
   ## Finishing Touches
   post_tasks:  
