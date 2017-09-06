@@ -42,3 +42,25 @@
   with_items:
     - cmake .
     - make
+
+- name: Downloading largeVis
+  get_url:
+    url="http://pklab.med.harvard.edu/pagoda2dependencies/largeVis.tar.gz"
+    dest="{{source_dir}}/largeVis.tar.gz"
+  register: get_url_result
+  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+  retries: 5
+  delay: 10
+
+- name: Uncompress largeVis
+  unarchive: 
+    src="{{source_dir}}/largeVis.tar.gz"
+    dest="{{software_dir}}"
+    copy=no
+    creates="{{software_dir}}/largeVis/README.Rmd"
+
+- name: Installing devtools
+  shell: "{{playbook_dir}}/scripts/install.r devtools"
+
+- name: Installing largeVis
+  shell: Rscript -e "devtools::install('{{software_dir}}/largeVis')"
