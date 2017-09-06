@@ -73,3 +73,23 @@
 - name: Installing largeVis
   shell: Rscript -e "devtools::install('{{software_dir}}/largeVis')"
 
+- name: Installing GO.db via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('Go.db')"
+
+- name: Installing org.Hs.eg.db via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('org.Hs.eg.db')"
+
+- name: Installing pcaMethods via Bioconductor
+  shell: Rscript -e "source('http://bioconductor.org/biocLite.R');biocLite('pcaMethods')"
+
+- name: Installing Cairo
+  shell: "{{playbook_dir}}/scripts/install.r Cairo"
+
+- name: Installing urltools
+  shell: "{{playbook_dir}}/scripts/install.r urltools"
+
+- name: Installing igraph/rigraph
+  shell: "{{playbook_dir}}/scripts/install_github.r igraph/rigraph"
+
+- name: Installing Rtsne
+  shell: Rscript -e "devtools::install_github("pkharchenko/Rtsne.multicore",ref="precomputed_distance")"
