@@ -16,7 +16,7 @@
 
   - name: Downloading Unix Dataset
     get_url:
-      url="https://s3.amazonaws.com/2017evomics/unix.tar.gz"
+      url="https://s3.amazonaws.com/evomics2017/unix.tar.gz"
       dest="{{source_dir}}/unix.tar.gz"
     register: get_url_result
     until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
