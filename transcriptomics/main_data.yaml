@@ -9,11 +9,6 @@
   tasks:
   ### Common ###
 
-  ### Unix ###
-  - name: Create Unix Directory
-    file: path="{{workshop_dir}}/unix" state=directory owner="{{workshop_user}}" group=workshop
-    tags: unix
-
   ### Transcriptomics ###
 
   - name: Create Transcriptomics Directory
