@@ -258,7 +258,7 @@
     - include: software_tasks/pagoda2.yaml
       tags: pagoda2, singlecell
 
-    - name: Installing urltools
+    - name: Installing seurat
       shell: "{{playbook_dir}}/scripts/install.r Seurat"
       tags: seurat, singlecell
 
