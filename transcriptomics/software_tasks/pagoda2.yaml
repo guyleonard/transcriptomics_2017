@@ -38,7 +38,7 @@
 - name: Building nmslib
   shell: "{{item}}"
   args:
-   chdir: "{{software_dir}}/nmslib-1.5.3"
+   chdir: "{{software_dir}}/nmslib-1.5.3/similarity_search"
   with_items:
     - cmake .
     - make
