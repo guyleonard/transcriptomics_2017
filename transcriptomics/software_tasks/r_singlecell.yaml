@@ -1,3 +1,6 @@
+- name: Installing devtools
+  shell: "{{playbook_dir}}/scripts/install.r devtools"
+
 - name: Installing SCDE
   shell: "{{playbook_dir}}/scripts/install_github.r 'devtools::hms-dbmi/scde', build_vignettes = FALSE"
 
