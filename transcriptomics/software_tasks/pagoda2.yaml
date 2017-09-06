@@ -92,4 +92,4 @@
   shell: "{{playbook_dir}}/scripts/install_github.r igraph/rigraph"
 
 - name: Installing Rtsne
-  shell: Rscript -e "devtools::install_github("pkharchenko/Rtsne.multicore",ref="precomputed_distance")"
+  shell: Rscript -e "devtools::install_github('pkharchenko/Rtsne.multicore', ref='precomputed_distance')"
